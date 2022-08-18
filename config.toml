@@ -1,17 +1,17 @@
 baseurl = "https://antopolskiy.github.io"
-title = "My blog"
+title = "Work in Progress"
 languageCode = "en-us"
 theme = "minimal"
 disqusShortname = "username" # delete this to disable disqus comments
 
 [params]
-    author = "Calin Tataru"
-    description = "Personal blog theme powered by Hugo"
-    githubUsername = "#"
-    accent = "red"
+    author = "Sergey Antopolskiy"
+    description = "Personal website"
+    githubUsername = "antopolskiy"
+    accent = "black"
     showBorder = true
     backgroundColor = "white"
-    font = "Raleway" # should match the name on Google Fonts!
+    font = "Source Sans Pro" # should match the name on Google Fonts!
     highlight = true
     highlightStyle = "default"
     highlightLanguages = ["python"]
