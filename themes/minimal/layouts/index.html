@@ -1,11 +1,24 @@
 {{ partial "header" . }}
 
 <main>
-    <div class="intro">
-        {{ with .Site.Params.profilePic }} <img class="profile" src="{{ . }}"> {{ end }}
-        <h1>{{ .Site.Title }}</h1>
-        <h2>{{ markdownify .Site.Params.Description }}</h2>
+    <div class="intro" style="
+        /* word-wrap: break-word;  */
+        margin-left:20%;
+        margin-right:20%;
+        ">
+        <!-- {{ with .Site.Params.profilePic }} <img class="profile" src="{{ . }}"> {{ end }} -->
+        <!-- <img class="profile" src="toptal_profile_pic.jpeg"> -->
+        <!-- <h1>{{ .Site.Title }}</h1> -->
+        <h4>{{ markdownify .Site.Params.Description }}</h4>
         {{ with .Content }} <div class="homepage-content text-justify">{{ . }}</div> {{ end }}
+        <br><br>
+        Selected posts
+        {{ range first 3 .Site.RegularPages }}
+            {{ if .Params.selected}}
+            <br>{{.Date | dateFormat "Jan 2, 2006"}} <a href="{{ .Permalink }}">
+                {{.Title}}</a> 
+                {{ end }}
+        {{ end }}   
     </div>
 </main>
 

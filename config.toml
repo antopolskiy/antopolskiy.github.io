@@ -1,12 +1,12 @@
 baseurl = "https://antopolskiy.github.io"
-title = "Work in Progress"
+title = "Home"
 languageCode = "en-us"
 theme = "minimal"
-disqusShortname = "username" # delete this to disable disqus comments
+disqusShortname = "antopolskiy" # delete this to disable disqus comments
 
 [params]
     author = "Sergey Antopolskiy"
-    description = "Personal website"
+    description = "Hi there! My name is Sergey Antopolskiy, I am a Data Scientist and here I write about things related to data and tangential topics."
     githubUsername = "antopolskiy"
     accent = "#9c27b0"
     showBorder = true
@@ -15,26 +15,23 @@ disqusShortname = "username" # delete this to disable disqus comments
     highlight = true
     highlightStyle = "default"
     highlightLanguages = ["python"]
+    #profilePic = "toptal_profile_pic.jpeg"
 
 [[menu.main]]
     url = "/"
     name = "Home"
     weight = 1
 
-[[menu.main]]
-    url = "/about/"
-    name = "About"
-    weight = 2
+#[[menu.main]]
+#    url = "/about/"
+#    name = "About"
+#    weight = 2
 
 [[menu.main]]
     url = "/post/"
     name = "Posts"
     weight = 3
 
-[[menu.main]]
-    url = "/project/"
-    name = "Projects"
-    weight = 4
 
 # Social icons to be shown on the right-hand side of the navigation bar.
 # The "name" field should match the name of the icon in Font Awesome.

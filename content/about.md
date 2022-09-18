@@ -13,4 +13,4 @@ That's some text with a footnote.[^2]
 
 That's some text with a footnote.[^1]
 
-[^1]: And that's the second footnote.
+[^1]: And that's the sed footnote.
