@@ -52,7 +52,7 @@ There are a few terms you need to know if you're going to use GPT-3 for classifi
 
 ***Zero-shot*** simply means that you use GPT-3 for completion without giving specific examples of what you want to do. In essence, you rely on what the network has already learned during its training. An example of using zero-shot classification to infer the genre of a Steam game from description[^ds] ({{<gpt-comp>}}GPT completion is highlighted{{</gpt-comp>}}):
 
-[^ds]: In this series of posts I will be using the dataset of [Steam games descriptions and tags](https://www.kaggle.com/datasets/trolukovich/steam-games-complete-dataset?resource=download). A subset of the most popular tags will be used as genres. Of course, the whole point of this approach is to label *unlabelled* data, however, for demonstration and validation of the approach, it is important to have labelled data.
+[^ds]: In this series of posts I will be using the dataset of [Steam games descriptions and tags](https://www.kaggle.com/datasets/trolukovich/steam-games-complete-dataset?resource=download). A subset of the most popular tags will be used as genres. Of course, the whole point of this approach is to label *unlabelled* data. But for demonstrating the approach it is useful to have labelled data.
 
 {{<gpt>}}
 <p>Game description:</p>
