@@ -2,7 +2,7 @@ baseurl = "https://antopolskiy.github.io"
 title = "Home"
 languageCode = "en-us"
 theme = "minimal"
-disqusShortname = "antopolskiy" # delete this to disable disqus comments
+disqusShortname = "sergey_antopolsky" # delete this to disable disqus comments
 
 [params]
     author = "Sergey Antopolskiy"
