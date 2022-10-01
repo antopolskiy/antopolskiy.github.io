@@ -8,10 +8,10 @@ draft: false
 
 
 ## Motivation
-In the life of any data scientist there comes a point when you realize that you don't have labelled data for the problem you're trying to solve. In this series of posts, I propose one approach to generate labelled data for text classification using large pretrained neural networks.
+In the life of any data scientist there comes a point when they need to train a baseline classification model for some task, but don't have labelled data to start. In this series of posts, I propose an approach to get labelled data for text classification using large pretrained neural networks, such as GPT-3. This approach will help you kickstart your classification problem. 
 
 ## TL;DR
-Gives an brief introduction to GPT-3; discusses a way to think about text completion; explains what is zero-shot, few-show classification and fine-tuning; introduces the example dataset that will be used in this series of posts; gives several examples of a naive approach to completion.
+Gives a brief introduction to GPT-3; discusses a way to think about text completion; explains what is zero-shot, few-show classification and fine-tuning; introduces the example dataset that will be used in this series of posts; gives several examples of a naive approach to completion.
 
 ## What is GPT-3?
 
@@ -29,7 +29,7 @@ You can access GPT-3 on [OpenAI's website](https://beta.openai.com/). It has a n
 GPT-3 is not free, but OpenAI gives you credits on sign-up to explore the potential applications, and it is enough for a few small-scale projects. In general, these kinds of engines will become cheaper as time goes on.
 
 #### A note on different engines
-There are [several versions of the GPT-3 models](https://beta.openai.com/docs/models/gpt-3) (sometimes referred to as "engines"). The differences are based on the size of the network and training data. Smaller networks work faster and consume fewer resources and are therefore cheaper. But the completions are dumber. We will be using the most capable engine Davinci, because we need to squeeze all the smarts we can from the network.
+There are [several versions of the GPT-3 models](https://beta.openai.com/docs/models/gpt-3) (sometimes referred to as "engines"). The differences are based on the size of the network and training data. Smaller networks work faster and consume fewer resources and are therefore cheaper. But the completions are dumber. We will be using the most capable engine Davinci because we need to squeeze all the smarts we can from the network.
 
 
 ## How I think about text completion
