@@ -40,7 +40,7 @@ Turns out, a lot of problems can be reframed as text completion problems. This i
 
 [^pe]: Incidentally, prompt engineering is relevant not only for text completion such as GPT-3 but also for image generation networks, such as DALLE and Midjourney. It has gotten to the point and many people consider prompt engineering as its own way of programming, and predict that shortly we will have a whole profession of "prompt engineers".
 
-But how to come up with good prompts? By now, prompt engineering has hundreds of posts written about it, and soon there will be dedicated books. However, as we just want to get started, I offer you a way to think about prompts that have helped me on many occasions. I call it **"it's gotta be somewhere on the internet"**. 
+But how to come up with good prompts? By now, prompt engineering has hundreds of posts written about it, and soon there will be dedicated books. However, as we just want to get started, I offer you a way to think about prompts that has helped me on many occasions. I call it **"it's gotta be somewhere on the internet"**. 
 
 Whenever you create a prompt, think about whether the result (your prompt + completion) could be the content of a page somewhere on the internet. This idea comes from the fact that the training dataset for GPT-3 included a lot of web page content.
 
@@ -63,7 +63,7 @@ There are a few terms you need to know if you're going to use GPT-3 for classifi
 {{</gpt>}}
 
 
-***Few-shot*** is when you provide one or more examples of what you want to do *in the prompt*. This can be quite powerful, especially when the completion you want is non-trivial, and after a few tries, you see that GPT-3 doesn't make it correctly after a zero-shot try. This can also improve the stability of the response: by providing an example, you all but ensure that the rest of the response will be in the same format. But there are better ways of ensuring stability which I will discuss in future posts. Few-shot comes with additional challenges, such as the dependency of the responses on the example(s) you've provided. Example of 1-shot classification:
+***Few-shot*** is when *in the prompt* you provide one or more examples of what you want GPT-3 to do. This can be quite powerful, especially when the completion you want is non-trivial, and after a few tries, you see that GPT-3 doesn't make it correctly after a zero-shot try. This can also improve the stability of the response: by providing an example, you all but ensure that the rest of the response will be in the same format. But there are better ways of ensuring stability which I will discuss in future posts. Few-shot comes with additional challenges, such as the dependency of the responses on the example(s) you've provided. Example of 1-shot classification:
 
 {{<gpt>}}
 <p>Game description:
