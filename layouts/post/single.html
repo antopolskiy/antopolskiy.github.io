@@ -5,7 +5,6 @@
     <div>
         <h2>{{ .Title }}</h2>
         <h5>Pubished: {{ .Date.Format (.Site.Params.dateFormat | default "January 2, 2006") }}</h5>
-        <h5>Modified: {{ .Lastmod.Format (.Site.Params.dateFormat | default "January 2, 2006") }}</h5>
         {{ partial "tags" . }}
     </div>
 

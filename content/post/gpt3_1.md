@@ -1,20 +1,25 @@
 ---
 title: "Kickstart text classification with GPT-3, part 1"
-date: 2022-08-27
-tags: ["ml", "gpt3", "nlp"]
+date: 2022-10-01
+tags: ["ml", "nlp", "gpt3"]
 selected: true
-draft: true
+draft: false
 ---
 
-<!-- Dataset: https://www.kaggle.com/datasets/trolukovich/steam-games-complete-dataset?resource=download -->
+
+## Motivation
+In the life of any data scientist there comes a point when you realize that you don't have labelled data for the problem you're trying to solve. In this series of posts, I propose one approach to generate labelled data for text classification using large pretrained neural networks.
+
+## TL;DR
+Gives an brief introduction to GPT-3; discusses a way to think about text completion; explains what is zero-shot, few-show classification and fine-tuning; introduces the example dataset that will be used in this series of posts; gives several examples of a naive approach to completion.
 
 ## What is GPT-3?
 
-GPT stands for “Generative Pre-trained Transformer”, and "3" is simply the version. There are many resources describing what it is, what it does. I won't go into these details now. <!--TODO Find and add links to resources--> 
+GPT stands for “Generative Pre-trained Transformer”, and "3" is simply the version. There are [many](https://medium.com/sciforce/what-is-gpt-3-how-does-it-work-and-what-does-it-actually-do-9f721d69e5c1) [good](https://en.wikipedia.org/wiki/GPT-3) [resources](https://towardsdatascience.com/understanding-gpt-3-in-5-minutes-7fe35c3a1e52) describing what it is, and what it does. I won't go into these details here. <!--TODO Find and add links to resources--> 
 
-For the purposes of this series of posts, we can treat GPT-3 as a black box. There are a few important things to keep in mind:
+In this series of posts, we can treat GPT-3 as a black box. There are a few important things to keep in mind:
 
-1. GPT-3 is a text completion engine. Whatever you give it, it will try to add text to it until it reaches either the token number limit you set or generates one of the stop-words (or symbols) you’ve specified (e.g. new line symbol).
+1. GPT-3 does text completion. Whatever you give it, it will try to add text to it until it reaches either the token number limit you set or generates one of the stop-words/symbols you’ve specified (e.g. new line symbol).
 2. GPT-3 was trained on a huge amount of text mostly scraped from the web[^1].
 [^1]: See [Common Crawl](https://commoncrawl.org/)
 
@@ -24,30 +29,30 @@ You can access GPT-3 on [OpenAI's website](https://beta.openai.com/). It has a n
 GPT-3 is not free, but OpenAI gives you credits on sign-up to explore the potential applications, and it is enough for a few small-scale projects. In general, these kinds of engines will become cheaper as time goes on.
 
 #### A note on different engines
+There are [several versions of the GPT-3 models](https://beta.openai.com/docs/models/gpt-3) (sometimes referred to as "engines"). The differences are based on the size of the network and training data. Smaller networks work faster and consume fewer resources and are therefore cheaper. But the completions are dumber. We will be using the most capable engine Davinci, because we need to squeeze all the smarts we can from the network.
 
-There are [several versions of the GPT-3 models](https://beta.openai.com/docs/models/gpt-3) (sometimes referred to as "engines"). The differences is based on the size of the network and training data. Smaller networks lead to faster and cheaper completion times, but the completions will be dumber. We will be using the Davinci engine, which is most capable, because we need to squeeze the most smarts from the pre-trained network.
 
 ## How I think about text completion
 
-So what can we do with GPT-3? Well, it is a text completion engine, so we can complete text. But kinds of problems does it help us to solve?
+So what can we do with GPT-3? Well, we give GPT-3 some initial text, called ***prompt***, and GPT-3 completes it. What kinds of problems does it help us to solve?
 
-Turns out, a lot of problems can be reframed as text completion problems. This is where creativity and imagination will be of use. OpenAI gives many [examples](https://beta.openai.com/examples), such as Keyword extraction, Text summarization, and more.
+Turns out, a lot of problems can be reframed as text completion problems. This is where creativity and imagination will be of use. OpenAI gives many [examples](https://beta.openai.com/examples), such as Keyword extraction, Text summarization, and more. The process of reframing the problem you want to solve into a text completion problem is called ***prompt engineering***[^pe].
 
-To put it very simply, we give GPT-3 some initial text, called ***prompt***, and GPT-3 completes it. The process of reframing the problem you want to solve into a text completion problem is called ***prompt engineering***[^pe].
+[^pe]: Incidentally, prompt engineering is relevant not only for text completion such as GPT-3 but also for image generation networks, such as DALLE and Midjourney. It has gotten to the point and many people consider prompt engineering as its own way of programming, and predict that shortly we will have a whole profession of "prompt engineers".
 
-[^pe]: Incidentally, prompt engineering is relevant not only for text completion engines such as GPT-3, but also for image generation networks, such as DALLE and Midjourney. It has gotten to the point and many people consider prompt engineering as its own way of programming, and predicting that in the near future we will have a whole profession of "prompt engineers".
+But how to come up with good prompts? By now, prompt engineering has hundreds of posts written about it, and soon there will be dedicated books. However, as we just want to get started, I offer you a way to think about prompts that have helped me on many occasions. I call it **"it's gotta be somewhere on the internet"**. 
 
-But how to come up with good prompts? Prompt engineering has hundreds of posts written about it, and soon there will be dedicated books. However, as we just want to get started, I offer you a way to think about prompts which has helped me on many occasions. I call it **"it's gotta be somewhere on the internet"**. 
+Whenever you create a prompt, think about whether the result (your prompt + completion) could be the content of a page somewhere on the internet. This idea comes from the fact that the training dataset for GPT-3 included a lot of web page content.
 
-Whenever you create a prompt, think about whether the result (your prompt + completion) could be the content of a page somewhere on the internet. This idea comes from the fact that the training dataset for GPT-3 included a lot of web pages content.
-
-Internet is a weird place, and there is life beyond the first couple of pages of Google Search results. Internet is full of [old university pages](https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm), [dumps of mailing lists](https://stat.ethz.ch/pipermail/r-sig-finance/2012q1/009645.html), [articles containing tables with data](https://ijpds.org/article/view/1680), and other interesting things. In the next post I will show how I use table format to create an efficient zero-shot classifier. Wait, what's zero-shot?
+The Internet is a weird place, and there is life beyond the first couple of pages of Google Search results. The Internet is full of [old university pages](https://homepages.inf.ed.ac.uk/rbf/HIPR2/gsmooth.htm), [dumps of mailing lists](https://stat.ethz.ch/pipermail/r-sig-finance/2012q1/009645.html), [articles containing tables with data](https://ijpds.org/article/view/1680), and other interesting things. In the next post, I will show how I use table format to create an efficient ***zero-shot*** classifier. Wait, what's zero-shot?
 
 ## Zero-shot, few-shot and fine-tuning
 
 There are a few terms you need to know if you're going to use GPT-3 for classification.
 
-***Zero-shot*** simply means that you use GPT-3 for completion without giving it specific examples of what you want to do. In essence, you rely on what the network has already learned during its training. An example of zero-shot classification ({{<gpt-comp>}}GPT completion is highlighted{{</gpt-comp>}}):
+***Zero-shot*** simply means that you use GPT-3 for completion without giving specific examples of what you want to do. In essence, you rely on what the network has already learned during its training. An example of using zero-shot classification to infer the genre of a Steam game from description[^ds] ({{<gpt-comp>}}GPT completion is highlighted{{</gpt-comp>}}):
+
+[^ds]: In this series of posts I will be using the dataset of [Steam games descriptions and tags](https://www.kaggle.com/datasets/trolukovich/steam-games-complete-dataset?resource=download). A subset of the most popular tags will be used as genres. Of course, the whole point of this approach is to label *unlabelled* data, however, for demonstration and validation of the approach, it is important to have labelled data.
 
 {{<gpt>}}
 <p>Game description:</p>
@@ -58,7 +63,7 @@ There are a few terms you need to know if you're going to use GPT-3 for classifi
 {{</gpt>}}
 
 
-***Few-shot*** is when you provide one or more examples of what you want to do *in the prompt*. This can be quite powerful, especially when the completion you want is non-trivial, and GPT-3 doesn't doesn't want to do it by itself. This can also improve stability of the response: by providing an example, you all but ensure that the rest of the response will be in the same format. But there are better ways of ensuring stability which I will discuss in the future posts. Few-shot comes with its own challenges, such as the dependency of the responses on the example(s) you've provided. Example of 1-shot classification:
+***Few-shot*** is when you provide one or more examples of what you want to do *in the prompt*. This can be quite powerful, especially when the completion you want is non-trivial, and after a few tries, you see that GPT-3 doesn't make it correctly after a zero-shot try. This can also improve the stability of the response: by providing an example, you all but ensure that the rest of the response will be in the same format. But there are better ways of ensuring stability which I will discuss in future posts. Few-shot comes with additional challenges, such as the dependency of the responses on the example(s) you've provided. Example of 1-shot classification:
 
 {{<gpt>}}
 <p>Game description:
@@ -74,19 +79,19 @@ There are a few terms you need to know if you're going to use GPT-3 for classifi
 <p>Is this a strategy game? Yes or No: {{<gpt-comp>}} Yes{{</gpt-comp>}}
 {{</gpt>}}
 
-***Fine-tuning*** refers to modifying the underlying network using a labelled dataset *before prompting*. It allows to turn the general-purpose completion engine into a very specific model. I will not get into detail of how this works, since I am not going to be using this. It requires labelled data, and it is more expensive, if you want to do it with GPT-3. You can read more about GPT-3 fine-tuning [here](https://beta.openai.com/docs/guides/fine-tuning).
+***Fine-tuning*** refers to modifying the underlying network using a labelled dataset *before prompting for completion*. It allows turning a general-purpose network, such as GPT-3, into a very specific model. I won't go into this, it requires labelled data, and it is more expensive if you want to do it with GPT-3. You can read more about GPT-3 fine-tuning [here](https://beta.openai.com/docs/guides/fine-tuning).
 
 ## Limitations of text completion
 
-What we were discussing before was end-of-text completion. This is when prompt comes before the completion. However, it doesn't have to be like that. Theoretically, we could ask the language model to fill a specific gap in the text. In principle, this task is not different from end-of-text completion.
+What I was showing before was end-of-text completion. This is when the completion comes after the prompt. However, it doesn't have to be like that. Theoretically, we could ask a language model like GPT-3 to fill a specific gap in the text. It seems that this is not so different from end-of-text completion.
 
-However, it adds complexity and needs to be used with care. For example, should the filling depend on text before it, or it can also look ahead? What if you have multiple gaps, do they influence each other? If so, what will be the order of the filling?
+However, it does add complexity and needs to be used with care. For example, should the filling depend on the text before it, or it can also look ahead? What if you have multiple gaps, do they influence each other? If so, what should be the order of the filling?
 
-Anyway, for now gap filling is in Beta mode in GPT-3, and I will not be using it here. If you want to read more about it, [let me know](mailto:s.antopolsky@gmail.com).
+Anyway, for now, the "Insert mode" in GPT-3 is in Beta mode, and I will not be using it here. If you want to read more about it, [let me know](mailto:s.antopolsky@gmail.com).
 
-## Naive approach
+## A naive approach to zero-shot classification
 
-Consider the examples from Zero-shot section above. We can see how GPT-3 can helps us do classification. However, it seems cumbersome to make requests for each of the sample, and for each caterogy. Are there better ways?
+Consider the examples from the [Zero-shot section above](#zero-shot-few-shot-and-fine-tuning). We can see how GPT-3 can helps us do classification. However, it seems cumbersome to make requests for each of the samples, and each of the categories. Are there better ways?
 
 ### Multiple examples
 
@@ -114,4 +119,4 @@ We can pack multiple examples in the same request, like so:
 
 As you can see, we can get predictions for multiple games in the same request.
 
-However, what if we want to get predictions for multiple games and multiple labels (genres) at the same time? In the next post I will show how to use markdown tables structure to achieve this goal.
+However, what if we want to get predictions for multiple games and multiple labels (genres) at the same time? In the next post, I will show how to use the markdown tables structure to achieve this goal.
