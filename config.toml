@@ -18,6 +18,7 @@ disqusShortname = "https-antopolskiy-github-io" # delete this to disable disqus 
     #profilePic = "toptal_profile_pic.jpeg"
     #font_size = "20"
     #custom_css = ["static/main.css"]
+    #copyright = " "
 
 [[menu.main]]
     url = "/"
