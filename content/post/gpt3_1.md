@@ -87,7 +87,7 @@ What I was showing before was end-of-text completion. This is when the completio
 
 However, it does add complexity and needs to be used with care. For example, should the filling depend on the text before it, or it can also look ahead? What if you have multiple gaps, do they influence each other? If so, what should be the order of the filling?
 
-Anyway, for now, the "Insert mode" in GPT-3 is in Beta mode, and I will not be using it here. If you want to read more about it, [let me know](mailto:s.antopolsky@gmail.com).
+Anyway, for now, the "Insert mode" in GPT-3 is in Beta mode, and I will not be using it here. If you'd like to read more about it, let me know in the comments, I can write a post of that in this future.
 
 ## A naive approach to zero-shot classification
 
