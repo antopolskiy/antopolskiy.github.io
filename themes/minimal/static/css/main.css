@@ -3,6 +3,7 @@ html, body {
 }
 
 
+
 body {
     padding-top: 55px;
     display: flex;
@@ -14,8 +15,15 @@ main {
     margin: auto;
     padding: 25px;
     flex: 1 0 auto;
-    max-width: 750px;
+    max-width: 1100px;
+    /* font-size: 20px; */
 }
+
+/* title of list pages */
+main > h2 {
+    font-size: 40px;
+}
+
 
 img {
     max-width: 100%;
@@ -23,25 +31,47 @@ img {
 
 /* Homepage */
 
+/* Text on the homepage */
 .intro {
     transform: translateY(22vh);
+    font-size: 20px;
 }
 
-.intro > h1 {
+/* .intro > h1 {
     color: #212121;
     font-size: 12vh;
-}
+} */
 
-.intro > h2 {
+/* .intro > h2 {
     color: #757575;
     font-size: 3vmin;
+} */
+
+/* Description on the homepage */
+.intro > h4 {
+    color: #757575;
+    font-size: 30px;
 }
+
 
 /* Page content */
 
+/* text of posts */
 .content {
     padding-top: 20px;
+    font-size: 20px;
 }
+
+.content > h2 {
+    padding-top: 20px;
+    font-size: 40px;
+}
+
+.content > h5 {
+    padding-top: 20px;
+    font-size: 20px;
+}
+
 
 /* Profile picture */
 
@@ -87,8 +117,17 @@ a:hover {
     padding: 10px 0;
 }
 
+.item > h4 {
+    font-size: 25px;
+}
+
+.item > h5 {
+    font-size: 20px;
+}
+
 .item-tag {
     background-color: var(--accent);
+    font-size: 20px;
     /* color: white;
     padding: 2px 5px;
     border-radius: 5px;
@@ -110,8 +149,10 @@ a:hover {
 
 .navbar.navbar-default {
     border-top: var(--border-width) solid var(--accent);
+    font-size: 20px;
 }
 
 footer {
     border-bottom: var(--border-width) solid var(--accent);
 }
+

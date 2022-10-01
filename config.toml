@@ -16,6 +16,8 @@ disqusShortname = "https-antopolskiy-github-io" # delete this to disable disqus 
     highlightStyle = "default"
     highlightLanguages = ["python"]
     #profilePic = "toptal_profile_pic.jpeg"
+    #font_size = "20"
+    #custom_css = ["static/main.css"]
 
 [[menu.main]]
     url = "/"
