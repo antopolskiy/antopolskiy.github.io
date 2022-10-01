@@ -79,15 +79,15 @@ There are a few terms you need to know if you're going to use GPT-3 for classifi
 <p>Is this a strategy game? Yes or No: {{<gpt-comp>}} Yes{{</gpt-comp>}}
 {{</gpt>}}
 
-***Fine-tuning*** refers to modifying the underlying network using a labelled dataset *before prompting for completion*. It allows turning a general-purpose network, such as GPT-3, into a very specific model. I won't go into this, it requires labelled data, and it is more expensive if you want to do it with GPT-3. You can read more about GPT-3 fine-tuning [here](https://beta.openai.com/docs/guides/fine-tuning).
+***Fine-tuning*** refers to modifying the underlying network using a labelled dataset *before prompting for completion*. It allows turning a general-purpose network, such as GPT-3, into a very specific model. It requires having some labelled data upfront, and it is more expensive if you want to do it with GPT-3. You can read more about GPT-3 fine-tuning [here](https://beta.openai.com/docs/guides/fine-tuning).
 
-## Limitations of text completion
+<!-- ## Limitations of text completion
 
 What I was showing before was end-of-text completion. This is when the completion comes after the prompt. However, it doesn't have to be like that. Theoretically, we could ask a language model like GPT-3 to fill a specific gap in the text. It seems that this is not so different from end-of-text completion.
 
 However, it does add complexity and needs to be used with care. For example, should the filling depend on the text before it, or it can also look ahead? What if you have multiple gaps, do they influence each other? If so, what should be the order of the filling?
 
-Anyway, for now, the "Insert mode" in GPT-3 is in Beta mode, and I will not be using it here. If you'd like to read more about it, let me know in the comments, I can write a post of that in this future.
+Anyway, for now, the "Insert mode" in GPT-3 is in Beta mode, and I will not be using it here. If you'd like to read more about it, let me know in the comments, I can write a post of that in this future. -->
 
 ## A naive approach to zero-shot classification
 
