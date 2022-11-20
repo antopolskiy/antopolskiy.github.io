@@ -9,9 +9,10 @@ draft: false
 # Into
 In the [previous part]({{< ref "/post/gpt3_2" >}}) we created a table-based prompt and got the completion in the form of TRUE / FALSE values for each of our samples and labels. In this post, we will automate this process.
 
-# GPT-3 API
+# What's an API?
 API (Application Programming Interface) is a developer-friendly way to communicate programmatically with a particular service / application. APIs are usually used to automate actions and integrate services. API is the opposite of a visual GUI (Guided User Interface), which is what we normally use. In the previous posts, we've used GUI of GPT-3, but it also has an API which we will use now.
 
+# Setting up GPT-3 API
 For Python, there is a dedicated package `openai` which simplifies API calls, but there is also a way to [make requests with a URL](https://beta.openai.com/docs/api-reference/making-requests), which will work in any language capable of making HTTP requests.
 
 First, install `openai` Python package:
@@ -32,6 +33,7 @@ import openai
 openai.api_key = "sk-neOy3i0r..."
 ```
 
+# Making a test request
 Set the parameters for a test request. We limit `max_tokens` to 10, and set `temperature` to 0, which is better for classification tasks. If you want to know more about the parameters, take a look at the [API documentation](https://beta.openai.com/docs/api-reference/completions/create).
 
 ```python
@@ -52,7 +54,7 @@ response = openai.Completion.create(**params)
 response = response.to_dict_recursive()
 ```
 
-If everything worked fine, the `response` should equal to something like[^err] this:
+If everything worked fine, the `response` should be something like[^err] this:
 
 ```python
 {'id': 'cmpl-6BhAmdV1eevida1MWsIklSTB6kven',
@@ -66,12 +68,13 @@ If everything worked fine, the `response` should equal to something like[^err] t
  'usage': {'prompt_tokens': 1, 'completion_tokens': 10, 'total_tokens': 11}}
 ```
 
-[^err]: If it didn't work, let me know in the comments, I can help you troubleshoot the issue.
+[^err]: If it didn't work, let me know in the comments, and I can help you troubleshoot the issue.
 
 Let's see what we've got here. The important bit is `response["choices"][0]["text"]`, which in my case equals to `'_split(X, y, test_size'`[^py]. This is our completion. It is what we saw highlighted green in the GPT-3 GUI.
 
 [^py]: Which is ironically also seems to be a bit of Python code, completely by accident. Yours can be different, because no one guarantees that GPT-3 is exactly the same at the time you are using it.
 
+# Getting the completion for a real prompt
 Now we can obtain the completion for our real task:
 
 ```python
@@ -123,7 +126,8 @@ And I get this as a response:
   'total_tokens': 484}}
 ```
 
-Now we need to parse the result to obtain labels for each of the games and genres. Instead of writing some kind of parsing loop, let's use a little trick and pretent that our table is a CSV-like object and use `pandas.read_csv()`:
+# Parsing the completion
+Now I need to parse the result to obtain labels for each of the games and genres. Instead of writing some kind of parsing loop, I will use a little trick and pretend that our table is a CSV-like object and use `pandas.read_csv()`:
 
 ```python
 from io import StringIO
