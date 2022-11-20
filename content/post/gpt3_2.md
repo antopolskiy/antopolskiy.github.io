@@ -338,4 +338,4 @@ Depending on the size of each sample, we can determine the maximum number of sam
 
 In this post, we've formatted the responses as Markdown tables, limited responses to TRUE / FALSE to improve stability, experimented with prompts and discussed some limitations and considerations of this approach. 
 
-In the next post, we will write Python code to automate requests and parse the responses to get a set of labels for each sample.
+In the [next post]({{< ref "/post/gpt3_3" >}}), we will write Python code to automate requests and parse the responses to get a set of labels for each sample.

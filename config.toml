@@ -14,11 +14,27 @@ disqusShortname = "https-antopolskiy-github-io" # delete this to disable disqus 
     font = "Source Sans Pro" # should match the name on Google Fonts!
     highlight = true
     highlightStyle = "default"
-    highlightLanguages = ["python"]
+    highlightLanguages = ["python", "json", "bash", "yaml", "toml", "go", "java", "javascript", "html", "css", "sql", "r", "cpp", "c", "dockerfile", "makefile", "nginx", "shell", "swift", "typescript", "xml", "kotlin", "rust", "powershell", "ruby", "scala", "haskell", "perl", "lua", "matlab", "scheme", "clojure", "erlang", "elixir", "fortran", "lisp", "pascal", "prolog", "vhdl", "verilog", "coffeescript", "diff", "django", "jinja", "latex", "markdown", "nginx", "nginxconf", "protobuf", "toml", "vim", "x86asm", "yaml"]
     #profilePic = "toptal_profile_pic.jpeg"
     #font_size = "20"
     #custom_css = ["static/main.css"]
     #copyright = " "
+    
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    hl_inline = false
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    noHl = false
+    style = 'github'
+    tabWidth = 4
 
 [[menu.main]]
     url = "/"
