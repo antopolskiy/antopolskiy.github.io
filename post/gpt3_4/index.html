@@ -1,0 +1,345 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Kickstart text classification with GPT-3, part 4</title><style>html body{font-family:source sans pro,sans-serif;background-color:#fff;font-weight:200}:root{--accent:#9c27b0;--border-width:5px}</style><link rel=stylesheet href=https://antopolskiy.github.io/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Source%20Sans%20Pro"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/toml.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/java.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/html.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/css.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/sql.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/cpp.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/c.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/dockerfile.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/makefile.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/nginx.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/swift.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/powershell.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ruby.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/perl.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lua.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/matlab.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scheme.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/clojure.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/erlang.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/elixir.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/fortran.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lisp.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/pascal.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/prolog.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vhdl.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/verilog.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/coffeescript.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/diff.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/django.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/jinja.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/latex.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/markdown.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/nginx.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/nginxconf.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/protobuf.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/toml.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/vim.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/x86asm.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script><script src=https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js></script>
+<script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
+<script>$(document).on("click",function(){$(".collapse").collapse("hide")})</script><meta name=generator content="Hugo 0.109.0"><script type=text/javascript async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></head><body><nav class="navbar navbar-default navbar-fixed-top"><div class=container><div class=navbar-header><a class="navbar-brand visible-xs" href=#>Kickstart text classification with GPT-3, part 4</a>
+<button class=navbar-toggle data-target=.navbar-collapse data-toggle=collapse>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button></div><div class="collapse navbar-collapse"><ul class="nav navbar-nav"><li><a href=/>Home</a></li><li><a href=/post/>Posts</a></li></ul><ul class="nav navbar-nav navbar-right"><li class=navbar-icon><a href=mailto:s.antopolsky@gmail.com><i class="fas fa-envelope"></i></a></li><li class=navbar-icon><a href=https://github.com/antopolskiy/><i class="fab fa-github"></i></a></li><li class=navbar-icon><a href=https://twitter.com/antopolskiy/><i class="fab fa-twitter"></i></a></li><li class=navbar-icon><a href=https://www.linkedin.com/in/antop/><i class="fab fa-linkedin"></i></a></li><li class=navbar-icon><a href=https://stackoverflow.com/users/3033945/sergey-antopolskiy><i class="fab fa-stack-overflow"></i></a></li></ul></div></div></nav><main><div class=content><h2>Kickstart text classification with GPT-3, part 4</h2><h5>Pubished: January 7, 2023</h5><a href=https://antopolskiy.github.iotags/ml><kbd class=item-tag>ml</kbd></a>
+<a href=https://antopolskiy.github.iotags/nlp><kbd class=item-tag>nlp</kbd></a>
+<a href=https://antopolskiy.github.iotags/gpt3><kbd class=item-tag>gpt3</kbd></a></div><div align=start class=content><h1 id=intro>Intro</h1><p>In the last part of the series, we set up an API to get predictions from GPT-3 programmatically. In this part, we will estimate the confidence of the predictions, and evaluate the accuracy of GPT-3 labelling.</p><h1 id=confidence----or-is-it>Confidence &ndash; or is it?</h1><p>We have our binary predictions. But we can do better. We can gauge the confidence of the predictions. This confidence can be used in a variety of ways, for example, you might way to discard low-confidence predictions, or put them through manual labelling in your workflow.</p><p>Let&rsquo;s look at an example.</p><p>It is easiest to see it in the <a href=https://beta.openai.com/playground>GPT-3 GUI</a>. Set &ldquo;Temperature&rdquo; to 0, and &ldquo;Show probabilities&rdquo; to &ldquo;Full spectrum&rdquo;. Now insert our prompt from the <a href=https://antopolskiy.github.io/post/gpt3_3/>previous part</a>:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain><span style=display:flex><span># List of games
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>name: DOOM
+</span></span><span style=display:flex><span>description: Now includes all three premium DLC packs (Unto the Evil, Hell Followed, and Bloodfall), maps, modes, and weapons, as well as all feature updates including Arcade Mode, Photo Mode, and the latest Update 6.66, which brings further multiplayer improvements as well as revamps multiplayer progression.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>name: This War of Mine
+</span></span><span style=display:flex><span>description: In This War Of Mine you do not play as an elite soldier, rather a group of civilians trying to survive in a besieged city; struggling with lack of food, medicine and constant danger from snipers and hostile scavengers. The game provides an experience of war seen from an entirely new angle.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>name: Divinity: Original Sin 2 - Definitive Edition
+</span></span><span style=display:flex><span>description: The eagerly anticipated sequel to the award-winning RPG. Gather your party. Master deep, tactical combat. Join up to 3 other players - but know that only one of you will have the chance to become a God.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>name: Portal
+</span></span><span style=display:flex><span>description: Portal™ is a new single player game from Valve. Set in the mysterious Aperture Science Laboratories, Portal has been called one of the most innovative new games on the horizon and will offer gamers hours of unique gameplay.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>name: AdVenture Capitalist
+</span></span><span style=display:flex><span>description: Welcome, eager young investor, to AdVenture Capitalist! Arguably the world&#39;s greatest Capitalism simulator!
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span># Table of games and their genres (TRUE or FALSE)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>| name | genre_action | genre_rpg | genre_strategy | genre_simulation | genre_puzzle | genre_casual | genre_adventure | genre_platformer |
+</span></span><span style=display:flex><span>| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+</span></span></code></pre></div><p>And request completion. You should see something like this:</p><p><img src=/gpt_gui_confidence.png alt></p><p>This is similar to what we&rsquo;ve seen before, however, note that the text has slightly different colours. The colour corresponds to the probability of that token. If you click on one of the words in the completion, you see the following:</p><p><img src=/gpt_gui_confidence_1.png alt></p><p>You see the probability of the produced token (TRUE = 55.50%) and the next 4 most probable tokens (FALSE = 44.48%, TR = 0.01%, etc.). This particular token is associated with low confidence, as the probabilities of TRUE and FALSE are quite close<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>.</p><h1 id=an-api-call-with-token-probabilities>An API call with token probabilities</h1><p>When we use the API, GPT-3 does not return the token probability directly, as seen in the GUI. Instead, we have access to <code>logprobs</code> &ndash; logarithm of the probability of the token (<a href=https://beta.openai.com/docs/api-reference/completions/create#completions/create-logprobs>documentation</a>). GPT-3 can only return the log probabilities of the chosen token + top 5 most likely other tokens<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>.</p><p>Let&rsquo;s modify our API call to include <code>"logprobs": 5</code> in the <code>params</code>:</p><pre tabindex=0><code>params = {
+    &#34;prompt&#34;: &#34;&#34;&#34;# List of games
+
+name: DOOM
+description: Now includes all three premium DLC packs (Unto the Evil, Hell Followed, and Bloodfall), maps, modes, and weapons, as well as all feature updates including Arcade Mode, Photo Mode, and the latest Update 6.66, which brings further multiplayer improvements as well as revamps multiplayer progression.
+
+name: This War of Mine
+description: In This War Of Mine you do not play as an elite soldier, rather a group of civilians trying to survive in a besieged city; struggling with lack of food, medicine and constant danger from snipers and hostile scavengers. The game provides an experience of war seen from an entirely new angle.
+
+name: Divinity: Original Sin 2 - Definitive Edition
+description: The eagerly anticipated sequel to the award-winning RPG. Gather your party. Master deep, tactical combat. Join up to 3 other players - but know that only one of you will have the chance to become a God.
+
+name: Portal
+description: Portal™ is a new single player game from Valve. Set in the mysterious Aperture Science Laboratories, Portal has been called one of the most innovative new games on the horizon and will offer gamers hours of unique gameplay.
+
+name: AdVenture Capitalist
+description: Welcome, eager young investor, to AdVenture Capitalist! Arguably the world&#39;s greatest Capitalism simulator!
+
+# Table of games and their genres (TRUE or FALSE)
+
+| name | genre_action | genre_rpg | genre_strategy | genre_simulation | genre_puzzle | genre_casual | genre_adventure | genre_platformer |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |&#34;&#34;&#34;,
+    &#34;engine&#34;: &#34;text-davinci-002&#34;,
+    &#34;max_tokens&#34;: 200,
+    &#34;temperature&#34;: 0,
+    &#34;logprobs&#34;: 5,
+}
+
+
+response = openai.Completion.create(**params)
+response = response.to_dict_recursive()
+</code></pre><p>Looking at the response, we will see some new data. <code>response["choices"][0]["logprobs"]</code> has the following content:</p><pre tabindex=0><code>&#39;logprobs&#39;: {
+&#39;tokens&#39;: [
+     &#39;\n&#39;,
+     &#39;|&#39;,
+     &#39; DO&#39;,
+     &#39;OM&#39;,
+     &#39; |&#39;,
+     &#39; TRUE&#39;,
+     &#39; |&#39;,
+     &#39; FALSE&#39;,
+...
+&#39;token_logprobs&#39;: [
+     -0.05465243,
+     -0.0013697118,
+     -0.030774955,
+     -5.460492e-07,
+     -0.036972597,
+     -0.030116804,
+     -0.0160796,
+     -0.005509305,
+...
+&#39;top_logprobs&#39;: [{
+   &#39; ---&#39;: -8.317702,
+   &#39;\n&#39;: -0.05465243,
+   &#39; &#39;: -2.9530916,
+   &#39;  &#39;: -7.5652566,
+   &#39;   &#39;: -9.768109},
+  {&#39;DO&#39;: -7.1756744,
+   &#39;\n&#39;: -9.548737,
+   &#39;D&#39;: -8.082862,
+   &#39;|&#39;: -0.0013697118,
+   &#39; |&#39;: -9.038816},
+...
+</code></pre><p><code>tokens</code> are the returned tokens<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup> and <code>token_logprobs</code> are their corresponding log probabilities. We can very easily translate these log probabilities into actual probabilities by exponentiation: e.g. let&rsquo;s take the probability of the <code>TRUE</code> token: $$e^{-0.030116804} = 0.97033218824$$</p><p>So the probability of seeing a <code>TRUE</code> token in this position, according to GPT-3 is ~0.97.
+<code>top_logprobs</code> are the next 5 most likely tokens and their log probabilities. We will not be using these here.</p><h1 id=parsing-token-probabilities>Parsing token probabilities</h1><p>Now that we have the probabilities available to us, all we need to do is to parse the response to create a table of probabilities of the game, for each label. Here I have written the code to parse the responses into <code>pandas.DataFrame</code>. It is not the most efficient, but it does the job.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=color:#000;font-weight:700>as</span> <span style=color:#555>np</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=color:#000;font-weight:700>as</span> <span style=color:#555>pd</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>yield_elements_cycle</span>(iterable, limit<span style=color:#000;font-weight:700>=</span><span style=color:#099>100000</span>):
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;&#34;&#34;Yield elements of an iterable in a cycle. limit is the maximum number of
+</span></span></span><span style=display:flex><span><span style=color:#d14>    elements to yield.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>for</span> i <span style=color:#000;font-weight:700>in</span> <span style=color:#0086b3>range</span>(limit):
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>yield</span> iterable[i <span style=color:#000;font-weight:700>%</span> <span style=color:#0086b3>len</span>(iterable)]
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>return</span> <span style=color:#d14>&#34;Limit reached&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>parse_response</span>(response):
+</span></span><span style=display:flex><span>    columns <span style=color:#000;font-weight:700>=</span> <span style=color:#d14>&#34;genre_action | genre_rpg | genre_strategy | genre_simulation | genre_puzzle | genre_casual | genre_adventure | genre_platformer&#34;</span><span style=color:#000;font-weight:700>.</span>split(
+</span></span><span style=display:flex><span>            <span style=color:#d14>&#34; | &#34;</span>
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    tokens <span style=color:#000;font-weight:700>=</span> response[<span style=color:#d14>&#34;choices&#34;</span>][<span style=color:#099>0</span>][<span style=color:#d14>&#34;logprobs&#34;</span>][<span style=color:#d14>&#34;tokens&#34;</span>]
+</span></span><span style=display:flex><span>    probs <span style=color:#000;font-weight:700>=</span> response[<span style=color:#d14>&#34;choices&#34;</span>][<span style=color:#099>0</span>][<span style=color:#d14>&#34;logprobs&#34;</span>][<span style=color:#d14>&#34;token_logprobs&#34;</span>]
+</span></span><span style=display:flex><span>    column <span style=color:#000;font-weight:700>=</span> yield_elements_cycle(columns)
+</span></span><span style=display:flex><span>    data <span style=color:#000;font-weight:700>=</span> <span style=color:#0086b3>iter</span>(response<span style=color:#000;font-weight:700>.</span>get(<span style=color:#d14>&#34;data&#34;</span>, []))
+</span></span><span style=display:flex><span>    res <span style=color:#000;font-weight:700>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>for</span> i, t <span style=color:#000;font-weight:700>in</span> <span style=color:#0086b3>enumerate</span>(tokens):
+</span></span><span style=display:flex><span>        t <span style=color:#000;font-weight:700>=</span> t<span style=color:#000;font-weight:700>.</span>strip(<span style=color:#d14>&#34; &#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>if</span> <span style=color:#d14>&#34;&lt;|endoftext|&gt;&#34;</span> <span style=color:#000;font-weight:700>in</span> t:
+</span></span><span style=display:flex><span>            <span style=color:#000;font-weight:700>break</span>
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>elif</span> t <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#34;</span><span style=color:#d14>\n</span><span style=color:#d14>&#34;</span>:
+</span></span><span style=display:flex><span>            d <span style=color:#000;font-weight:700>=</span> {<span style=color:#d14>&#34;name&#34;</span>: <span style=color:#d14>&#34;&#34;</span><span style=color:#000;font-weight:700>.</span>join(tokens[i:])<span style=color:#000;font-weight:700>.</span>split(<span style=color:#d14>&#39;|&#39;</span>)[<span style=color:#099>1</span>]<span style=color:#000;font-weight:700>.</span>strip()}
+</span></span><span style=display:flex><span>            res<span style=color:#000;font-weight:700>.</span>append(d)
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>elif</span> t <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#34;TRUE&#34;</span>:
+</span></span><span style=display:flex><span>            p <span style=color:#000;font-weight:700>=</span> np<span style=color:#000;font-weight:700>.</span>exp(probs[i])
+</span></span><span style=display:flex><span>            d<span style=color:#000;font-weight:700>.</span>update({<span style=color:#0086b3>next</span>(column): p})
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>elif</span> t <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#34;FALSE&#34;</span>:
+</span></span><span style=display:flex><span>            p <span style=color:#000;font-weight:700>=</span> <span style=color:#099>1</span> <span style=color:#000;font-weight:700>-</span> np<span style=color:#000;font-weight:700>.</span>exp(probs[i])
+</span></span><span style=display:flex><span>            d<span style=color:#000;font-weight:700>.</span>update({<span style=color:#0086b3>next</span>(column): p})
+</span></span><span style=display:flex><span>            
+</span></span><span style=display:flex><span>    df <span style=color:#000;font-weight:700>=</span> pd<span style=color:#000;font-weight:700>.</span>DataFrame(res)
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>return</span> df
+</span></span></code></pre></div><p><code>parse_response(response)</code>:</p><p><img src=/gpt_pred.png alt></p><h1 id=putting-it-all-together>Putting it all together</h1><p>Let&rsquo;s put everything together to obtain a labelled dataset.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>json</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>pandas</span> <span style=color:#000;font-weight:700>as</span> <span style=color:#555>pd</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>numpy</span> <span style=color:#000;font-weight:700>as</span> <span style=color:#555>np</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>from</span> <span style=color:#555>sklearn.metrics</span> <span style=color:#000;font-weight:700>import</span> RocCurveDisplay
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>matplotlib.pyplot</span> <span style=color:#000;font-weight:700>as</span> <span style=color:#555>plt</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>import</span> <span style=color:#555>openai</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># insert your OpenAI api-key, to be found here: https://beta.openai.com/account/api-keys</span>
+</span></span><span style=display:flex><span>openai<span style=color:#000;font-weight:700>.</span>api_key <span style=color:#000;font-weight:700>=</span> <span style=color:#d14>&#34;sk-...&#34;</span> 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>### LOAD AND PREPROCESS DATA ###</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># load data (source https://www.kaggle.com/datasets/trolukovich/steam-games-complete-dataset)</span>
+</span></span><span style=display:flex><span>df <span style=color:#000;font-weight:700>=</span> pd<span style=color:#000;font-weight:700>.</span>read_csv(<span style=color:#d14>&#34;steam_games.csv&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># parse tags into boolean table of tags for each game</span>
+</span></span><span style=display:flex><span>tags <span style=color:#000;font-weight:700>=</span> (
+</span></span><span style=display:flex><span>    pd<span style=color:#000;font-weight:700>.</span>DataFrame([
+</span></span><span style=display:flex><span>        {g: <span style=color:#099>1</span> <span style=color:#000;font-weight:700>for</span> g <span style=color:#000;font-weight:700>in</span> tags} 
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>for</span> tags <span style=color:#000;font-weight:700>in</span> df[<span style=color:#d14>&#34;popular_tags&#34;</span>]<span style=color:#000;font-weight:700>.</span>fillna(<span style=color:#d14>&#34;&#34;</span>)<span style=color:#000;font-weight:700>.</span>str<span style=color:#000;font-weight:700>.</span>split(<span style=color:#d14>&#39;,&#39;</span>)<span style=color:#000;font-weight:700>.</span>values])
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>.</span>fillna(<span style=color:#099>0</span>)
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>.</span>astype(<span style=color:#0086b3>bool</span>)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># manually pick tags, we will use them as labels</span>
+</span></span><span style=display:flex><span>tags_to_classify <span style=color:#000;font-weight:700>=</span> [
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Action&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;RPG&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Strategy&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Simulation&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Puzzle&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Casual&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Adventure&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;Platformer&#34;</span>
+</span></span><span style=display:flex><span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># extract number of reviews for each game, in order to later pick most reviewed games</span>
+</span></span><span style=display:flex><span>n_reviews <span style=color:#000;font-weight:700>=</span> df[<span style=color:#d14>&#34;all_reviews&#34;</span>]<span style=color:#000;font-weight:700>.</span>str<span style=color:#000;font-weight:700>.</span>extract(<span style=color:#d14>r</span><span style=color:#d14>&#34;(\([\d,]+\))&#34;</span>)
+</span></span><span style=display:flex><span>n_reviews[<span style=color:#d14>&#34;n_reviews&#34;</span>] <span style=color:#000;font-weight:700>=</span> n_reviews[<span style=color:#099>0</span>]<span style=color:#000;font-weight:700>.</span>str<span style=color:#000;font-weight:700>.</span>strip(<span style=color:#d14>&#34;() &#34;</span>)<span style=color:#000;font-weight:700>.</span>str<span style=color:#000;font-weight:700>.</span>replace(<span style=color:#d14>&#34;,&#34;</span>, <span style=color:#d14>&#34;&#34;</span>)<span style=color:#000;font-weight:700>.</span>astype(<span style=color:#0086b3>float</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># put all data together</span>
+</span></span><span style=display:flex><span>data <span style=color:#000;font-weight:700>=</span> (
+</span></span><span style=display:flex><span>    pd<span style=color:#000;font-weight:700>.</span>concat([
+</span></span><span style=display:flex><span>        df[[<span style=color:#d14>&#34;name&#34;</span>, <span style=color:#d14>&#34;desc_snippet&#34;</span>]], 
+</span></span><span style=display:flex><span>        tags[tags_to_classify], 
+</span></span><span style=display:flex><span>        n_reviews[<span style=color:#d14>&#34;n_reviews&#34;</span>]
+</span></span><span style=display:flex><span>    ], axis<span style=color:#000;font-weight:700>=</span><span style=color:#099>1</span>)
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>.</span>dropna(subset<span style=color:#000;font-weight:700>=</span>[<span style=color:#d14>&#34;n_reviews&#34;</span>])
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>.</span>sort_values(<span style=color:#d14>&#34;n_reviews&#34;</span>, ascending<span style=color:#000;font-weight:700>=</span><span style=color:#000;font-weight:700>False</span>)
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>.</span>reset_index(drop<span style=color:#000;font-weight:700>=</span><span style=color:#000;font-weight:700>True</span>)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>data<span style=color:#000;font-weight:700>.</span>columns <span style=color:#000;font-weight:700>=</span> data<span style=color:#000;font-weight:700>.</span>columns<span style=color:#000;font-weight:700>.</span>map(<span style=color:#000;font-weight:700>lambda</span> x: x<span style=color:#000;font-weight:700>.</span>lower())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># pick top 100 games as a benchmark dataset</span>
+</span></span><span style=display:flex><span>data <span style=color:#000;font-weight:700>=</span> data<span style=color:#000;font-weight:700>.</span>iloc[:<span style=color:#099>100</span>]
+</span></span><span style=display:flex><span>data_records <span style=color:#000;font-weight:700>=</span> data<span style=color:#000;font-weight:700>.</span>to_dict(orient<span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;records&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>### GETTING COMPLETION FROM GPT-3 ###</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>make_prompt</span>(name_descr_records):
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>make_game_string</span>(name_descr_record):
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>return</span> <span style=color:#d14>&#34;</span><span style=color:#d14>\n</span><span style=color:#d14>&#34;</span><span style=color:#000;font-weight:700>.</span>join([
+</span></span><span style=display:flex><span>            <span style=color:#d14>f</span><span style=color:#d14>&#34;name: </span><span style=color:#d14>{</span>name_descr_record[<span style=color:#d14>&#39;name&#39;</span>]<span style=color:#d14>}</span><span style=color:#d14>&#34;</span>, 
+</span></span><span style=display:flex><span>            <span style=color:#d14>f</span><span style=color:#d14>&#34;description: </span><span style=color:#d14>{</span>name_descr_record[<span style=color:#d14>&#39;desc_snippet&#39;</span>]<span style=color:#d14>}</span><span style=color:#d14>&#34;</span>
+</span></span><span style=display:flex><span>        ])
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>make_all_games_strings</span>(name_descr_records):
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>return</span> <span style=color:#d14>&#34;</span><span style=color:#d14>\n\n</span><span style=color:#d14>&#34;</span><span style=color:#000;font-weight:700>.</span>join(make_game_string(rec) <span style=color:#000;font-weight:700>for</span> rec <span style=color:#000;font-weight:700>in</span> name_descr_records)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>return</span> <span style=color:#d14>f</span><span style=color:#d14>&#34;&#34;&#34;# List of games
+</span></span></span><span style=display:flex><span><span style=color:#d14>    
+</span></span></span><span style=display:flex><span><span style=color:#d14></span><span style=color:#d14>{</span>make_all_games_strings(name_descr_records)<span style=color:#d14>}</span><span style=color:#d14>
+</span></span></span><span style=display:flex><span><span style=color:#d14>
+</span></span></span><span style=display:flex><span><span style=color:#d14># Table of games and their genres (TRUE or FALSE)
+</span></span></span><span style=display:flex><span><span style=color:#d14>
+</span></span></span><span style=display:flex><span><span style=color:#d14>| name | genre_action | genre_rpg | genre_strategy | genre_simulation | genre_puzzle | genre_casual | genre_adventure | genre_platformer |
+</span></span></span><span style=display:flex><span><span style=color:#d14>| --- | --- | --- | --- | --- | --- | --- | --- | --- |&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>N_GAMES_IN_PROMPT <span style=color:#000;font-weight:700>=</span> <span style=color:#099>5</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>responses <span style=color:#000;font-weight:700>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># obtain GPT-3 labels; note that this part will use your GPT-3 credit, though very little of it: with prices of January 2023 it costed me ~0.1 USD.</span>
+</span></span><span style=display:flex><span>ixs <span style=color:#000;font-weight:700>=</span> np<span style=color:#000;font-weight:700>.</span>arange(<span style=color:#099>0</span>, <span style=color:#0086b3>len</span>(data_records) <span style=color:#000;font-weight:700>+</span> N_GAMES_IN_PROMPT, N_GAMES_IN_PROMPT)
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>for</span> start, stop <span style=color:#000;font-weight:700>in</span> <span style=color:#0086b3>list</span>(<span style=color:#0086b3>zip</span>(ixs[:<span style=color:#000;font-weight:700>-</span><span style=color:#099>1</span>], ixs[<span style=color:#099>1</span>:])):
+</span></span><span style=display:flex><span>    <span style=color:#0086b3>print</span>(stop, end<span style=color:#000;font-weight:700>=</span><span style=color:#d14>&#34;, &#34;</span>)
+</span></span><span style=display:flex><span>    params <span style=color:#000;font-weight:700>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#d14>&#34;prompt&#34;</span>: make_prompt(data_records[start:stop]),
+</span></span><span style=display:flex><span>        <span style=color:#d14>&#34;engine&#34;</span>: <span style=color:#d14>&#34;text-davinci-003&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#d14>&#34;max_tokens&#34;</span>: <span style=color:#099>200</span>,
+</span></span><span style=display:flex><span>        <span style=color:#d14>&#34;temperature&#34;</span>: <span style=color:#099>0</span>,
+</span></span><span style=display:flex><span>        <span style=color:#d14>&#34;logprobs&#34;</span>: <span style=color:#099>5</span>,
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    response <span style=color:#000;font-weight:700>=</span> openai<span style=color:#000;font-weight:700>.</span>Completion<span style=color:#000;font-weight:700>.</span>create(<span style=color:#000;font-weight:700>**</span>params)
+</span></span><span style=display:flex><span>    response <span style=color:#000;font-weight:700>=</span> response<span style=color:#000;font-weight:700>.</span>to_dict_recursive()
+</span></span><span style=display:flex><span>    response[<span style=color:#d14>&#34;data&#34;</span>] <span style=color:#000;font-weight:700>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#d14>&#34;game_names&#34;</span>: [d[<span style=color:#d14>&#34;name&#34;</span>] <span style=color:#000;font-weight:700>for</span> d <span style=color:#000;font-weight:700>in</span> data_records[start:stop]]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    responses<span style=color:#000;font-weight:700>.</span>append(response)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># store responses for later use, to avoid requesting completion one more time</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>with</span> <span style=color:#0086b3>open</span>(<span style=color:#d14>&#34;responses.json&#34;</span>, <span style=color:#d14>&#34;w&#34;</span>) <span style=color:#000;font-weight:700>as</span> f:
+</span></span><span style=display:flex><span>    json<span style=color:#000;font-weight:700>.</span>dump(responses, f)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># uncomment this to load the responses</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># with open(&#34;responses.json&#34;, &#34;r&#34;) as f:</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>#     responses = json.load(f)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>### PARSING RESPONSES ###</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>yield_elements_cycle</span>(iterable, limit<span style=color:#000;font-weight:700>=</span><span style=color:#099>100000</span>):
+</span></span><span style=display:flex><span>    <span style=color:#d14>&#34;&#34;&#34;Yield elements of an iterable in a cycle. limit is the maximum number of
+</span></span></span><span style=display:flex><span><span style=color:#d14>    elements to yield.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>for</span> i <span style=color:#000;font-weight:700>in</span> <span style=color:#0086b3>range</span>(limit):
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>yield</span> iterable[i <span style=color:#000;font-weight:700>%</span> <span style=color:#0086b3>len</span>(iterable)]
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>return</span> <span style=color:#d14>&#34;Limit reached&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>def</span> <span style=color:#900;font-weight:700>parse_response</span>(response):
+</span></span><span style=display:flex><span>    columns <span style=color:#000;font-weight:700>=</span> <span style=color:#d14>&#34;genre_action | genre_rpg | genre_strategy | genre_simulation | genre_puzzle | genre_casual | genre_adventure | genre_platformer&#34;</span><span style=color:#000;font-weight:700>.</span>split(
+</span></span><span style=display:flex><span>            <span style=color:#d14>&#34; | &#34;</span>
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    tokens <span style=color:#000;font-weight:700>=</span> response[<span style=color:#d14>&#34;choices&#34;</span>][<span style=color:#099>0</span>][<span style=color:#d14>&#34;logprobs&#34;</span>][<span style=color:#d14>&#34;tokens&#34;</span>]
+</span></span><span style=display:flex><span>    probs <span style=color:#000;font-weight:700>=</span> response[<span style=color:#d14>&#34;choices&#34;</span>][<span style=color:#099>0</span>][<span style=color:#d14>&#34;logprobs&#34;</span>][<span style=color:#d14>&#34;token_logprobs&#34;</span>]
+</span></span><span style=display:flex><span>    column <span style=color:#000;font-weight:700>=</span> yield_elements_cycle(columns)
+</span></span><span style=display:flex><span>    data <span style=color:#000;font-weight:700>=</span> <span style=color:#0086b3>iter</span>(response<span style=color:#000;font-weight:700>.</span>get(<span style=color:#d14>&#34;data&#34;</span>, []))
+</span></span><span style=display:flex><span>    res <span style=color:#000;font-weight:700>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>for</span> i, t <span style=color:#000;font-weight:700>in</span> <span style=color:#0086b3>enumerate</span>(tokens):
+</span></span><span style=display:flex><span>        t <span style=color:#000;font-weight:700>=</span> t<span style=color:#000;font-weight:700>.</span>strip(<span style=color:#d14>&#34; &#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>if</span> <span style=color:#d14>&#34;&lt;|endoftext|&gt;&#34;</span> <span style=color:#000;font-weight:700>in</span> t:
+</span></span><span style=display:flex><span>            <span style=color:#000;font-weight:700>break</span>
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>elif</span> t <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#34;</span><span style=color:#d14>\n</span><span style=color:#d14>&#34;</span>:
+</span></span><span style=display:flex><span>            d <span style=color:#000;font-weight:700>=</span> {<span style=color:#d14>&#34;name&#34;</span>: <span style=color:#d14>&#34;&#34;</span><span style=color:#000;font-weight:700>.</span>join(tokens[i:])<span style=color:#000;font-weight:700>.</span>split(<span style=color:#d14>&#39;|&#39;</span>)[<span style=color:#099>1</span>]<span style=color:#000;font-weight:700>.</span>strip()}
+</span></span><span style=display:flex><span>            res<span style=color:#000;font-weight:700>.</span>append(d)
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>elif</span> t <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#34;TRUE&#34;</span>:
+</span></span><span style=display:flex><span>            p <span style=color:#000;font-weight:700>=</span> np<span style=color:#000;font-weight:700>.</span>exp(probs[i])
+</span></span><span style=display:flex><span>            d<span style=color:#000;font-weight:700>.</span>update({<span style=color:#0086b3>next</span>(column): p})
+</span></span><span style=display:flex><span>        <span style=color:#000;font-weight:700>elif</span> t <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#34;FALSE&#34;</span>:
+</span></span><span style=display:flex><span>            p <span style=color:#000;font-weight:700>=</span> <span style=color:#099>1</span> <span style=color:#000;font-weight:700>-</span> np<span style=color:#000;font-weight:700>.</span>exp(probs[i])
+</span></span><span style=display:flex><span>            d<span style=color:#000;font-weight:700>.</span>update({<span style=color:#0086b3>next</span>(column): p})
+</span></span><span style=display:flex><span>            
+</span></span><span style=display:flex><span>    df <span style=color:#000;font-weight:700>=</span> pd<span style=color:#000;font-weight:700>.</span>DataFrame(res)
+</span></span><span style=display:flex><span>    <span style=color:#000;font-weight:700>return</span> df
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>data_gpt <span style=color:#000;font-weight:700>=</span> pd<span style=color:#000;font-weight:700>.</span>concat([parse_response(r) <span style=color:#000;font-weight:700>for</span> r <span style=color:#000;font-weight:700>in</span> responses])<span style=color:#000;font-weight:700>.</span>reset_index(drop<span style=color:#000;font-weight:700>=</span><span style=color:#000;font-weight:700>True</span>)
+</span></span></code></pre></div><p><code>data_gpt</code>:
+<img src=/gpt_pred_all.png alt></p><h1 id=evaluation>Evaluation</h1><p>Now it is time to evaluate the results of our predictions. In real projects, you want to label new data, and here you would create a benchmark dataset with a manually labelled subset of data, and test GPT-3 classification against it. But here we will test GPT-3 labels against those available in the original dataset.</p><p>We will use <a href=https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc>ROC AUC</a> for each label as a measure of how well GPT-3 labels the data.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>ax <span style=color:#000;font-weight:700>=</span> plt<span style=color:#000;font-weight:700>.</span>figure(dpi<span style=color:#000;font-weight:700>=</span><span style=color:#099>100</span>)<span style=color:#000;font-weight:700>.</span>add_subplot(<span style=color:#099>1</span>,<span style=color:#099>1</span>,<span style=color:#099>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>labels <span style=color:#000;font-weight:700>=</span> data_gpt<span style=color:#000;font-weight:700>.</span>drop(columns<span style=color:#000;font-weight:700>=</span>[<span style=color:#d14>&#39;name&#39;</span>])<span style=color:#000;font-weight:700>.</span>columns<span style=color:#000;font-weight:700>.</span>tolist()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>for</span> label <span style=color:#000;font-weight:700>in</span> labels:
+</span></span><span style=display:flex><span>    y_true <span style=color:#000;font-weight:700>=</span> data[label<span style=color:#000;font-weight:700>.</span>split(<span style=color:#d14>&#34;_&#34;</span>)[<span style=color:#099>1</span>]]<span style=color:#000;font-weight:700>.</span>astype(<span style=color:#0086b3>float</span>)
+</span></span><span style=display:flex><span>    y_pred <span style=color:#000;font-weight:700>=</span> data_gpt[label]
+</span></span><span style=display:flex><span>    RocCurveDisplay<span style=color:#000;font-weight:700>.</span>from_predictions(y_true, y_pred, name<span style=color:#000;font-weight:700>=</span>label, ax<span style=color:#000;font-weight:700>=</span>ax)
+</span></span></code></pre></div><p><img src=/gpt_pre_roc.png alt></p><p>As we can see, for all labels, GPT-3 performs above the chance level. It performed best for Action and Platformer, and worst for Puzzle.</p><h1 id=conclusions>Conclusions</h1><p>I have walked you through an approach for zero-shot multilabel classification using GPT-3. I find it suitable for a variety of scenarios where I need to label some unspecialized text data quickly for a first rough stab at modelling. Generally, with some tweaking of the prompt, it produces results at a level of an untrained human labeller for a fraction of the cost and time. The example use case I provided in this series of posts &ndash; predicting the genre of the game by name and short description &ndash; is one of the worst results I have gotten with this approach, and it is still quite reasonable.</p><p>I hope you found this useful and don&rsquo;t hesitate to prompt me for more information in the comments.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>Note that the probabilities of other tokens besides TRUE and FALSE are extremely low. This is good &ndash; it means that GPT-3 &ldquo;understands&rdquo; the format in which it should be producing the response, and not trying to insert tokens other than TRUE or FALSE here. This is exactly what we want to see to get a consistent response which can be parsed programmatically.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>OpenAI state that they can approve you getting more than 5 <code>logprob</code>s for specific use cases, but you need to communicate the use case to them.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>Note that the word &ldquo;DOOM&rdquo; consists of 2 tokens. It is expected that tokens do not correspond exactly to words. It is just how the tokenizer in GPT-3 works.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div><h4 class=page-header>Related</h4><div class=item><h4><a href=/post/gpt3_3/>Kickstart text classification with GPT-3, part 3</a></h4><h5>November 20, 2022</h5><a href=https://antopolskiy.github.iotags/ml><kbd class=item-tag>ml</kbd></a>
+<a href=https://antopolskiy.github.iotags/nlp><kbd class=item-tag>nlp</kbd></a>
+<a href=https://antopolskiy.github.iotags/gpt3><kbd class=item-tag>gpt3</kbd></a></div><div class=item><h4><a href=/post/gpt3_2/>Kickstart text classification with GPT-3, part 2</a></h4><h5>October 22, 2022</h5><a href=https://antopolskiy.github.iotags/ml><kbd class=item-tag>ml</kbd></a>
+<a href=https://antopolskiy.github.iotags/nlp><kbd class=item-tag>nlp</kbd></a>
+<a href=https://antopolskiy.github.iotags/gpt3><kbd class=item-tag>gpt3</kbd></a></div><div class=item><h4><a href=/post/gpt3_1/>Kickstart text classification with GPT-3, part 1</a></h4><h5>October 1, 2022</h5><a href=https://antopolskiy.github.iotags/ml><kbd class=item-tag>ml</kbd></a>
+<a href=https://antopolskiy.github.iotags/nlp><kbd class=item-tag>nlp</kbd></a>
+<a href=https://antopolskiy.github.iotags/gpt3><kbd class=item-tag>gpt3</kbd></a></div><h4 class=page-header>Comments</h4><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//https-antopolskiy-github-io.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></main><footer><p class="copyright text-muted">© Sergey Antopolskiy, 2022</p></footer></body></html>
