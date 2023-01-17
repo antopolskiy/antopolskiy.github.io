@@ -7,10 +7,10 @@ draft: false
 ---
 
 # Intro
-In the last part of the series, we set up an API to get predictions from GPT-3 programmatically. In this part, we will estimate the confidence of the predictions, and evaluate the accuracy of GPT-3 labelling.
+In the [previous part]({{< ref "/post/gpt3_3" >}}) of the series, we set up an API to get predictions from GPT-3 programmatically. In this part, we will estimate the confidence of the predictions, and evaluate the accuracy of GPT-3 labelling.
 
 # Confidence -- or is it?
-We have our binary predictions. But we can do better. We can gauge the confidence of the predictions. This confidence can be used in a variety of ways, for example, you might way to discard low-confidence predictions, or put them through manual labelling in your workflow.
+Last time we finished with binary predictions -- TRUE or FALSE. But we can do better. We can gauge the confidence of the predictions. This confidence can be used in a variety of ways, for example, you might want to discard low-confidence predictions, or label them manually later.
 
 Let's look at an example. 
 
