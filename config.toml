@@ -6,7 +6,7 @@ disqusShortname = "https-antopolskiy-github-io" # delete this to disable disqus 
 
 [params]
     author = "Sergey Antopolskiy"
-    description = "Hi there! My name is Sergey Antopolskiy, I am a Data Scientist and here I write about things related to data and tangential topics."
+    description = "Hi there! My name is Sergey Antopolskiy, I am technical lead @ [Mosaiq Labs](https://mosaiqlabs.com) and here I write about things related to data science, AI, cloud services, devops and tangential topics."
     githubUsername = "antopolskiy"
     accent = "#9c27b0"
     showBorder = true
